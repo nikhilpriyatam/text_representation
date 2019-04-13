@@ -1,6 +1,15 @@
 Text Representation
 ===================
 
+Installation
+------------
+
+`pip install text_representation-0.1-py3-none-any.whl`
+
+
+Methods
+-------
+
 This repository implements the following document embedding methods.
 
  * TF-IDF
@@ -12,4 +21,4 @@ This repository implements the following document embedding methods.
  * Averaged universal sentence encoding
  * uncased BERT model.
 
- Each of the above methods have two variants. The first variant encodes the sequence of documents in one go. The second variant encodes the documents in a bacth-wise manner.
+Each of the above methods have two variants. The first variant encodes the sequence of documents in one go. The second variant encodes the documents in a bacth-wise manner.
