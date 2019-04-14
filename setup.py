@@ -20,7 +20,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/x-rst",
     url="https://github.com/nikhilpriyatam/text_representation",
-    packages=setuptools.find_packages(),
+    packages=['text_representation'],
     license='MIT',
     classifiers=["Programming Language :: Python :: 3",
                  "License :: OSI Approved :: MIT License",

@@ -1,4 +1,8 @@
 __pycache__/
+
+*.doctree
 docs/source/
+docs/build/doctrees/
+docs/build/html/_sources/
 docs/Makefile
 docs/make.bat

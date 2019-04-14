@@ -1,6 +1,6 @@
 # imports
-import text_emb as te
-import batch_emb as be
+import text_representation.text_emb as te
+import text_representation.batch_emb as be
 import numpy as np
 import importlib
 from sklearn.datasets import fetch_20newsgroups
