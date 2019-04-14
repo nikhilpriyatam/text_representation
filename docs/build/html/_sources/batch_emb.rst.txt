@@ -1,0 +1,7 @@
+batch\_emb module
+=================
+
+.. automodule:: batch_emb
+    :members:
+    :undoc-members:
+    :show-inheritance:

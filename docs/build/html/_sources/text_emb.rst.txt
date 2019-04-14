@@ -1,0 +1,7 @@
+text\_emb module
+================
+
+.. automodule:: text_emb
+    :members:
+    :undoc-members:
+    :show-inheritance:

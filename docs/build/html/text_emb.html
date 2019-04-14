@@ -1,0 +1,320 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>text_emb module &#8212; Text Representation  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="batch_emb module" href="batch_emb.html" />
+    <link rel="prev" title="Welcome to Text Representation’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-text_emb">
+<span id="text-emb-module"></span><h1>text_emb module<a class="headerlink" href="#module-text_emb" title="Permalink to this headline">¶</a></h1>
+<p>Return vectorized representation of a given textual docs or phrases. Uses
+scikit-learn, spacy and tensorflow-hub modules. Most useful tensorflow hub URLs
+are mentioned below.</p>
+<p><a class="reference external" href="https://tfhub.dev/google/elmo/2">https://tfhub.dev/google/elmo/2</a>
+<a class="reference external" href="https://tfhub.dev/google/bert_uncased_L-12_H-768_A-12/1">https://tfhub.dev/google/bert_uncased_L-12_H-768_A-12/1</a>
+<a class="reference external" href="https://tfhub.dev/google/universal-sentence-encoder-large/3">https://tfhub.dev/google/universal-sentence-encoder-large/3</a></p>
+<p>&#64;author: Nikhil Pattisapu, iREL, IIIT-H.</p>
+<dl class="function">
+<dt id="text_emb.avg_elmo_emb">
+<code class="descclassname">text_emb.</code><code class="descname">avg_elmo_emb</code><span class="sig-paren">(</span><em>texts</em>, <em>module_url='https://tfhub.dev/google/elmo/2'</em>, <em>tf_batch_size=64</em>, <em>gpu_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#text_emb.avg_elmo_emb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the averaged sentence Elmo representation of the phrase or text.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>texts</strong> (<em>list of strings</em>) – list of documents or phrases</li>
+<li><strong>tf_batch_size</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default is 64</em>) – Number of strings to be processed in a single
+batch of Elmo Tensorflow Hub model.</li>
+<li><strong>gpu_id</strong> (<em>string</em><em> (</em><em>to be used by os.environ</em><em>[</em><em>'CUDA_VISIBLE_DEVICES'</em><em>]</em><em>
+optional</em><em>, </em><em>Default is None</em><em> (</em><em>Use System specified value</em><em>)</em>) – The default GPU ID which has to be used to run Elmo
+pre-trained model</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A matrix representing the texts.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">A numpy matrix.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="text_emb.avg_sent_emb">
+<code class="descclassname">text_emb.</code><code class="descname">avg_sent_emb</code><span class="sig-paren">(</span><em>texts</em>, <em>nlp=None</em>, <em>model_type='en_core_web_lg'</em>, <em>n_vectors=None</em><span class="sig-paren">)</span><a class="headerlink" href="#text_emb.avg_sent_emb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return averaged sentence embedding based representation of texts. A
+sentence embedding is obtained by averaging the word embeddings of the
+words present in it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>texts</strong> (<em>list of strings.</em>) – list of documents.</li>
+<li><strong>nlp</strong> (<em>optional</em><em>, </em><em>spacy model object.</em>) – Spacy NLP Model preloaded in memory</li>
+<li><strong>model_type</strong> (<em>string</em><em>, </em><em>optional</em><em> (</em><em>default word2vec vectors</em><em>)</em>) – Model type used for various word embeddings</li>
+<li><strong>n_vectors</strong> (<em>None</em><em>, </em><em>int</em><em>, </em><em>optional</em>) – Number of vectors to keep. Setting a small value results
+in faster speed at the cost of reduced accuracy. Can be used for quick
+testing.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A matrix representing the texts</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">A numpy matrix.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="text_emb.avg_use_emb">
+<code class="descclassname">text_emb.</code><code class="descname">avg_use_emb</code><span class="sig-paren">(</span><em>texts</em>, <em>module_url='https://tfhub.dev/google/universal-sentence-encoder-large/3'</em>, <em>tf_batch_size=64</em>, <em>gpu_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#text_emb.avg_use_emb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return averaged sentence universal sentence encoding representation of
+the phrase or text.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>texts</strong> (<em>list of strings</em>) – list of documents or phrases</li>
+<li><strong>tf_batch_size</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default is 64</em>) – Number of strings to be processed in a single
+batch of Universal Sentence Encoder Tensorflow Hub model.</li>
+<li><strong>gpu_id</strong> (<em>string</em><em> (</em><em>to be used by os.environ</em><em>[</em><em>'CUDA_VISIBLE_DEVICES'</em><em>]</em><em>
+optional</em><em>, </em><em>Default is None</em><em> (</em><em>Use System specified value</em><em>)</em>) – The default GPU ID which has to be used to run Elmo
+pre-trained model</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A matrix representing the texts.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">A numpy matrix.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="text_emb.avg_word_emb">
+<code class="descclassname">text_emb.</code><code class="descname">avg_word_emb</code><span class="sig-paren">(</span><em>texts</em>, <em>nlp=None</em>, <em>model_type='en_core_web_lg'</em>, <em>n_vectors=None</em><span class="sig-paren">)</span><a class="headerlink" href="#text_emb.avg_word_emb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return averaged word embedding based representation of texts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>texts</strong> (<em>list of strings.</em>) – list of documents.</li>
+<li><strong>nlp</strong> (<em>optional</em><em>, </em><em>spacy model object.</em>) – Spacy NLP Model preloaded in memory</li>
+<li><strong>model_type</strong> (<em>string</em><em>, </em><em>optional</em><em> (</em><em>default word2vec vectors</em><em>)</em>) – Model type used for various word embeddings</li>
+<li><strong>n_vectors</strong> (<em>None</em><em>, </em><em>int</em><em>, </em><em>optional</em>) – Number of vectors to keep</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A matrix representing the texts</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">A numpy matrix.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="text_emb.bert_emb">
+<code class="descclassname">text_emb.</code><code class="descname">bert_emb</code><span class="sig-paren">(</span><em>texts</em>, <em>model_dir='~/uncased_L-12_H-768_A-12/'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text_emb.bert_emb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return BERT representation of the phrase or text</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>texts</strong> (<em>list of strings</em>) – list of documents or phrases</li>
+<li><strong>model_dir</strong> (<em>string</em><em>, </em><em>optional</em><em>, </em><em>default is ~/uncased_L-12_H-768_A-12</em>) – The path of pre-trained BERT model.</li>
+<li><strong>kwargs</strong> – Keyword arguments to be passed to the server which affect
+the performance of the BERT model (Includes GPU ID, etc). For more options
+visit: <a class="reference external" href="https://bert-as-service.readthedocs.io/en/latest/source/server.html">https://bert-as-service.readthedocs.io/en/latest/source/server.html</a>
+and <a class="reference external" href="https://github.com/hanxiao/bert-as-service">https://github.com/hanxiao/bert-as-service</a></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A matrix representing the texts.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">A numpy matrix.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="text_emb.elmo_emb">
+<code class="descclassname">text_emb.</code><code class="descname">elmo_emb</code><span class="sig-paren">(</span><em>texts</em>, <em>module_url='https://tfhub.dev/google/elmo/2'</em>, <em>tf_batch_size=64</em>, <em>gpu_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#text_emb.elmo_emb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return Elmo representation of the phrase or text</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>texts</strong> (<em>list of strings</em>) – list of documents or phrases</li>
+<li><strong>tf_batch_size</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default is 64</em>) – Number of strings to be processed in a single
+batch of Elmo Tensorflow Hub model.</li>
+<li><strong>gpu_id</strong> (<em>string</em><em> (</em><em>to be used by os.environ</em><em>[</em><em>'CUDA_VISIBLE_DEVICES'</em><em>]</em><em>
+optional</em><em>, </em><em>Default is None</em><em> (</em><em>Use System specified value</em><em>)</em>) – The default GPU ID which has to be used to run Elmo
+pre-trained model</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A matrix representing the texts</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">A numpy matrix.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="text_emb.tfidf">
+<code class="descclassname">text_emb.</code><code class="descname">tfidf</code><span class="sig-paren">(</span><em>texts</em>, <em>vectorizer=None</em><span class="sig-paren">)</span><a class="headerlink" href="#text_emb.tfidf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the TF-IDF representation corresponding to texts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>texts</strong> (<em>list of strings.</em>) – list of documents.</li>
+<li><strong>vectorizer</strong> (<em>optional</em><em>,
+</em><em>sklearn.feature_extraction.text.TfidfVectorizer</em>) – A fitted Sklearn’s TFIDF vectorizer</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A matrix representing the texts</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">A numpy sparse matrix.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="text_emb.use_emb">
+<code class="descclassname">text_emb.</code><code class="descname">use_emb</code><span class="sig-paren">(</span><em>texts</em>, <em>module_url='https://tfhub.dev/google/universal-sentence-encoder-large/3'</em>, <em>tf_batch_size=64</em>, <em>gpu_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#text_emb.use_emb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return Universal Sentence Encoder representation of the phrase or text</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>texts</strong> (<em>list of strings</em>) – list of documents or phrases</li>
+<li><strong>tf_batch_size</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default is 64</em>) – Number of strings to be processed in a single
+batch of Universal Sentence Encoder Tensorflow Hub model.</li>
+<li><strong>gpu_id</strong> (<em>string</em><em> (</em><em>to be used by os.environ</em><em>[</em><em>'CUDA_VISIBLE_DEVICES'</em><em>]</em><em>
+optional</em><em>, </em><em>Default is None</em><em> (</em><em>Use System specified value</em><em>)</em>) – The default GPU ID which has to be used to run Elmo
+pre-trained model</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A matrix representing the texts.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">A numpy matrix.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Text Representation’s documentation!</a></li>
+      <li>Next: <a href="batch_emb.html" title="next chapter">batch_emb module</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/text_emb.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nikhil Pattisapu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/text_emb.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

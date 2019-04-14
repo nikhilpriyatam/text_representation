@@ -20,6 +20,7 @@ def batchify(seq, batch_size):
 def avg_vectors(matrix, row_ids):
     """Returns the document embedding given the sentence embedding matrix
     consisting of one sentence vecter per row.
+
     :param matrix: sentence embedding matrix. Each row cosists of sentence
      embedding. The matrix spans the sentence embeddings of several documents.
     :type matrix: A 2D numpy matrix.
@@ -101,7 +102,7 @@ def run_tfhub(texts, tf_model, tf_placeholder, tf_batch_size, gpu_id=None):
     :param tf_placeholder: A placeholder for text
     :type tf_placeholder: tf.string
     :param tf_batch_size: The number of textual items to be processed in a
-    single batch
+     single batch
     :type tf_batch_size: int.
     :param gpu_id: The GPU IDs which are to be used for this computation
     :type gpu_id: string
