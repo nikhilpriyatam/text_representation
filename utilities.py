@@ -6,6 +6,7 @@ of text representation package
 
 import os
 import spacy
+from nltk.tokenize import word_tokenize
 import numpy as np
 import tensorflow as tf
 
@@ -48,26 +49,44 @@ def get_spacy_sent_tokenizer():
     return nlp
 
 
-def get_sentences(texts, nlp=None):
+def get_sentences(texts, max_sent_len=30):
     """Tokenizes text and returns sentences as well as number of sentences per
     sample
 
     :param texts: A list of phrases or texts
     :type texts: A list of strings
+    :param max_sent_len: Maximum number of words per sentence. Sentences longer
+     than this would be split into multiple sentences.
+    :type max_sent_len: int, optional, default is 30
     :return: A tuple consisting of 2 lists. First one cosists of list of
      tokenized sentences. The second one consists of number of sentences in
      each document or text
     :rtype: Tuple
     """
 
-    if nlp is None:
-        nlp = get_spacy_sent_tokenizer()
+    nlp = get_spacy_sent_tokenizer()
 
     texts_sent, texts_nsent = [], []
     for text in texts:
+        truncated_sents = []
         sents = [sent.text for sent in nlp(text).sents]
-        texts_sent += sents
-        texts_nsent.append(len(sents))
+
+        # If a sentence consists of more than max_sent_len words, split it into
+        # multiple sentences.
+        for sent in sents:
+            words = word_tokenize(sent)
+            if len(words) < max_sent_len:
+                truncated_sents.append(sent)
+            else:
+                small_sents = batchify(words, batch_size=max_sent_len)
+                for small_sent in small_sents:
+                    small_sent = ' '.join(small_sent)
+                    truncated_sents.append(small_sent)
+
+        # Each sentence in truncated_sents contains less than max_sent_len
+        # words.
+        texts_sent += truncated_sents
+        texts_nsent.append(len(truncated_sents))
     return texts_sent, texts_nsent
 
 

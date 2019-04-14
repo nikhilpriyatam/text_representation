@@ -22,29 +22,6 @@ import tensorflow as tf
 import tensorflow_hub as hub
 
 
-def tfidf(texts, vectorizer=None, batch_size=32):
-    """Yields the TF-IDF representation corresponding to batches of texts.
-
-    :param texts: list of documents.
-    :type texts: list of strings.
-    :param vectorizer: A fitted Sklearn's TFIDF vectorizer
-    :type vectorizer: optional,
-     sklearn.feature_extraction.text.TfidfVectorizer
-    :param batch_size: The batch size of the representation
-    :type batch_size: int, optional, default is 32
-    :return: A matrix representing the texts
-    :rtype: A numpy sparse matrix.
-    """
-
-    if vectorizer is None:
-        vectorizer = TfidfVectorizer()
-        vectorizer.fit(texts)
-
-    texts = utils.batchify(texts, batch_size)
-    for text in texts:
-        yield vectorizer.transform(text)
-
-
 def avg_word_emb(texts, nlp=None, model_type="en_core_web_lg",
                  n_vectors=None, batch_size=32):
     """Yields averaged word embedding based representation of batches of texts.
@@ -65,6 +42,7 @@ def avg_word_emb(texts, nlp=None, model_type="en_core_web_lg",
 
     if nlp is None:
         nlp = spacy.load(model_type)
+        nlp.disable_pipes('tagger', 'parser', 'ner')
     if n_vectors is not None:
         nlp.vocab.prune_vectors(n_vectors)
 
@@ -94,6 +72,9 @@ def avg_sent_emb(texts, nlp=None, model_type="en_core_web_lg",
 
     if nlp is None:
         nlp = spacy.load(model_type)
+        nlp.disable_pipes('tagger', 'parser', 'ner')
+        sentencizer = nlp.create_pipe("sentencizer")
+        nlp.add_pipe(sentencizer)
     if n_vectors is not None:
         nlp.vocab.prune_vectors(n_vectors)
 

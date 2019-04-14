@@ -1,0 +1,9 @@
+setuptools==36.5.0.post20170921
+numpy==1.15.3
+tensorflow_gpu==1.12.0
+bert_serving_server==1.8.9
+tensorflow_hub==0.2.0
+nltk==3.2.5
+spacy==2.0.18
+scikit_learn==0.20.3
+tensorflow==1.13.1

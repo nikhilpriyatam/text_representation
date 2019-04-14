@@ -4,6 +4,7 @@ Text Representation
 Installation
 ------------
 
+`pip install -r requirements.txt`
 `pip install text_representation-0.1-py3-none-any.whl`
 
 
@@ -19,6 +20,6 @@ This repository implements the following document embedding methods.
  * Averaged Elmo embedding (can be used to encode documents spanning multiple sentences)
  * Universal sentence encoder
  * Averaged universal sentence encoding
- * uncased BERT model.
+ * uncased BERT model based encodings.
 
-Each of the above methods have two variants. The first variant encodes the sequence of documents in one go. The second variant encodes the documents in a bacth-wise manner.
+Each of the above methods have two variants. The first variant encodes the sequence of documents in one go. The second variant encodes the documents in a batch-wise manner.

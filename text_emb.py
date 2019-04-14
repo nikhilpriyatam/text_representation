@@ -59,6 +59,7 @@ def avg_word_emb(texts, nlp=None, model_type="en_core_web_lg", n_vectors=None):
 
     if nlp is None:
         nlp = spacy.load(model_type)
+        nlp.disable_pipes('tagger', 'parser', 'ner')
     if n_vectors is not None:
         nlp.vocab.prune_vectors(n_vectors)
 
@@ -87,6 +88,9 @@ def avg_sent_emb(texts, nlp=None, model_type="en_core_web_lg", n_vectors=None):
 
     if nlp is None:
         nlp = spacy.load(model_type)
+        nlp.disable_pipes('tagger', 'parser', 'ner')
+        sentencizer = nlp.create_pipe("sentencizer")
+        nlp.add_pipe(sentencizer)
     if n_vectors is not None:
         nlp.vocab.prune_vectors(n_vectors)
 
