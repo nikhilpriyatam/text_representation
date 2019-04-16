@@ -153,38 +153,38 @@ def use_emb(texts, module_url=("https://tfhub.dev/google/"
                               tf_placeholder, tf_batch_size, gpu_id)
 
 
-def bert_emb(texts, model_dir='~/uncased_L-12_H-768_A-12/', batch_size=32,
-             **kwargs):
-    """Yields BERT representation of batches of phrases or texts.
+def bert_emb(texts, batch_size=32):
+    """Yields BERT representation of batches of phrase or text. In order for
+    this function to yield embeddings it needs to meet the following
+    prerequisite. There should be a server running in the background which
+    serves bert embedding. The commands for starting and terminating the servers
+    are mentioned below
+
+        * bert-serving-start -model_dir=~/uncased_L-12_H-768_A-12
+        * bert-serving-terminate -port_in 5555.
+
+    For other useful options look at bert-serving-start --help and
+    bert-serving-terminate --help.
+
+    In order to install the above mentioned server please visit to the
+    following sources:
+
+        * https://bert-as-service.readthedocs.io/en/latest/source/server.html
+        * https://github.com/hanxiao/bert-as-service
 
     :param texts: list of documents or phrases
     :type texts: list of strings
-    :param model_dir: The path of pre-trained BERT model.
-    :type model_dir: string, optional, default is ~/uncased_L-12_H-768_A-12
-    :param kwargs: Keyword arguments to be passed to the server which affect
-     the performance of the BERT model (Includes GPU ID, etc). For more options
-     visit: https://bert-as-service.readthedocs.io/en/latest/source/server.html
-     and https://github.com/hanxiao/bert-as-service
     :param batch_size: The batch size of the representation
     :type batch_size: int, optional, default is 32
-    :return: A matrix representing the texts
+    :return: A matrix representing the texts.
     :rtype: A numpy matrix.
     """
 
-    # Start server with appropriate parameters
-    cmd = 'bert-serving-start -model_dir ' + model_dir + ' '
-    for key, val in kwargs.items():
-        cmd += '-' + key + ' ' + val + ' '
-
-    server = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True,
-                              preexec_fn=os.setsid)
     bert_client = BertClient()
     batched_texts = utils.batchify(texts, batch_size)
     for batch_texts in batched_texts:
         embeddings = bert_client.encode(batch_texts)
         yield embeddings
-
-    os.killpg(os.getpgid(server.pid), signal.SIGTERM)
 
 
 def avg_elmo_emb(texts, module_url="https://tfhub.dev/google/elmo/2",

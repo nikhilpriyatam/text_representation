@@ -151,32 +151,34 @@ def use_emb(texts, module_url=("https://tfhub.dev/google/"
                            gpu_id)
 
 
-def bert_emb(texts, model_dir='~/uncased_L-12_H-768_A-12/',
-             **kwargs):
-    """Return BERT representation of the phrase or text
+def bert_emb(texts):
+    """Return BERT representation of the phrase or text. In order for this
+    function to return embeddings it needs to meet the following prerequisite.
+    There should be a server running in the background which serves bert
+    embedding. The commands for starting and terminating the servers are
+    mentioned below
+
+        * bert-serving-start -model_dir=~/uncased_L-12_H-768_A-12
+        * bert-serving-terminate -port_in 5555.
+
+    For other useful options look at bert-serving-start --help and
+    bert-serving-terminate --help.
+
+    In order to install the above mentioned server please visit to the
+    following sources:
+
+        * https://bert-as-service.readthedocs.io/en/latest/source/server.html
+        * https://github.com/hanxiao/bert-as-service
 
     :param texts: list of documents or phrases
     :type texts: list of strings
-    :param model_dir: The path of pre-trained BERT model.
-    :type model_dir: string, optional, default is ~/uncased_L-12_H-768_A-12
-    :param kwargs: Keyword arguments to be passed to the server which affect
-     the performance of the BERT model (Includes GPU ID, etc). For more options
-     visit: https://bert-as-service.readthedocs.io/en/latest/source/server.html
-     and https://github.com/hanxiao/bert-as-service
     :return: A matrix representing the texts.
     :rtype: A numpy matrix.
     """
 
     # Start server with appropriate parameters
-    cmd = 'bert-serving-start -model_dir ' + model_dir + ' '
-    for key, val in kwargs.items():
-        cmd += '-' + key + ' ' + val + ' '
-
-    server = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True,
-                              preexec_fn=os.setsid)
     bert_client = BertClient()
     embeddings = bert_client.encode(texts)
-    os.killpg(os.getpgid(server.pid), signal.SIGTERM)
     return embeddings
 
 

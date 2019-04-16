@@ -166,24 +166,39 @@ pre-trained model</li>
 
 <dl class="function">
 <dt id="text_representation.batch_emb.bert_emb">
-<code class="descclassname">text_representation.batch_emb.</code><code class="descname">bert_emb</code><span class="sig-paren">(</span><em>texts</em>, <em>model_dir='~/uncased_L-12_H-768_A-12/'</em>, <em>batch_size=32</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text_representation.batch_emb.bert_emb" title="Permalink to this definition">¶</a></dt>
-<dd><p>Yields BERT representation of batches of phrases or texts.</p>
+<code class="descclassname">text_representation.batch_emb.</code><code class="descname">bert_emb</code><span class="sig-paren">(</span><em>texts</em>, <em>batch_size=32</em><span class="sig-paren">)</span><a class="headerlink" href="#text_representation.batch_emb.bert_emb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields BERT representation of batches of phrase or text. In order for
+this function to yield embeddings it needs to meet the following
+prerequisite. There should be a server running in the background which
+serves bert embedding. The commands for starting and terminating the servers
+are mentioned below</p>
+<blockquote>
+<div><ul class="simple">
+<li>bert-serving-start -model_dir=~/uncased_L-12_H-768_A-12</li>
+<li>bert-serving-terminate -port_in 5555.</li>
+</ul>
+</div></blockquote>
+<p>For other useful options look at bert-serving-start –help and
+bert-serving-terminate –help.</p>
+<p>In order to install the above mentioned server please visit to the
+following sources:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://bert-as-service.readthedocs.io/en/latest/source/server.html">https://bert-as-service.readthedocs.io/en/latest/source/server.html</a></li>
+<li><a class="reference external" href="https://github.com/hanxiao/bert-as-service">https://github.com/hanxiao/bert-as-service</a></li>
+</ul>
+</div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>texts</strong> (<em>list of strings</em>) – list of documents or phrases</li>
-<li><strong>model_dir</strong> (<em>string</em><em>, </em><em>optional</em><em>, </em><em>default is ~/uncased_L-12_H-768_A-12</em>) – The path of pre-trained BERT model.</li>
-<li><strong>kwargs</strong> – Keyword arguments to be passed to the server which affect
-the performance of the BERT model (Includes GPU ID, etc). For more options
-visit: <a class="reference external" href="https://bert-as-service.readthedocs.io/en/latest/source/server.html">https://bert-as-service.readthedocs.io/en/latest/source/server.html</a>
-and <a class="reference external" href="https://github.com/hanxiao/bert-as-service">https://github.com/hanxiao/bert-as-service</a></li>
 <li><strong>batch_size</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default is 32</em>) – The batch size of the representation</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A matrix representing the texts</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A matrix representing the texts.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">A numpy matrix.</p>
@@ -382,27 +397,37 @@ pre-trained model</li>
 
 <dl class="function">
 <dt id="text_representation.text_emb.bert_emb">
-<code class="descclassname">text_representation.text_emb.</code><code class="descname">bert_emb</code><span class="sig-paren">(</span><em>texts</em>, <em>model_dir='~/uncased_L-12_H-768_A-12/'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text_representation.text_emb.bert_emb" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return BERT representation of the phrase or text</p>
+<code class="descclassname">text_representation.text_emb.</code><code class="descname">bert_emb</code><span class="sig-paren">(</span><em>texts</em><span class="sig-paren">)</span><a class="headerlink" href="#text_representation.text_emb.bert_emb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return BERT representation of the phrase or text. In order for this
+function to return embeddings it needs to meet the following prerequisite.
+There should be a server running in the background which serves bert
+embedding. The commands for starting and terminating the servers are
+mentioned below</p>
+<blockquote>
+<div><ul class="simple">
+<li>bert-serving-start -model_dir=~/uncased_L-12_H-768_A-12</li>
+<li>bert-serving-terminate -port_in 5555.</li>
+</ul>
+</div></blockquote>
+<p>For other useful options look at bert-serving-start –help and
+bert-serving-terminate –help.</p>
+<p>In order to install the above mentioned server please visit to the
+following sources:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://bert-as-service.readthedocs.io/en/latest/source/server.html">https://bert-as-service.readthedocs.io/en/latest/source/server.html</a></li>
+<li><a class="reference external" href="https://github.com/hanxiao/bert-as-service">https://github.com/hanxiao/bert-as-service</a></li>
+</ul>
+</div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>texts</strong> (<em>list of strings</em>) – list of documents or phrases</li>
-<li><strong>model_dir</strong> (<em>string</em><em>, </em><em>optional</em><em>, </em><em>default is ~/uncased_L-12_H-768_A-12</em>) – The path of pre-trained BERT model.</li>
-<li><strong>kwargs</strong> – Keyword arguments to be passed to the server which affect
-the performance of the BERT model (Includes GPU ID, etc). For more options
-visit: <a class="reference external" href="https://bert-as-service.readthedocs.io/en/latest/source/server.html">https://bert-as-service.readthedocs.io/en/latest/source/server.html</a>
-and <a class="reference external" href="https://github.com/hanxiao/bert-as-service">https://github.com/hanxiao/bert-as-service</a></li>
-</ul>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>texts</strong> (<em>list of strings</em>) – list of documents or phrases</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A matrix representing the texts.</p>
-</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A matrix representing the texts.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">A numpy matrix.</p>
-</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A numpy matrix.</td>
 </tr>
 </tbody>
 </table>
