@@ -183,7 +183,7 @@ def bert_emb(texts):
 
 
 def avg_elmo_emb(texts, module_url="https://tfhub.dev/google/elmo/2",
-                 tf_batch_size=64, gpu_id=None):
+                 tf_batch_size=64, gpu_id=None, max_sent_len=40):
     """Return the averaged sentence Elmo representation of the phrase or text.
 
     :param texts: list of documents or phrases
@@ -195,6 +195,9 @@ def avg_elmo_emb(texts, module_url="https://tfhub.dev/google/elmo/2",
      pre-trained model
     :type gpu_id: string (to be used by os.environ['CUDA_VISIBLE_DEVICES'].
      optional, Default is None (Use System specified value)
+    :param max_sent_len: Maximum number of words per sentence. If a sentence is
+     found to be larger than this then it is split into multiple sentences.
+    :type max_sent_len: int, optional, default is 40.
     :return: A matrix representing the texts.
     :rtype: A numpy matrix.
     """
@@ -203,7 +206,7 @@ def avg_elmo_emb(texts, module_url="https://tfhub.dev/google/elmo/2",
     tf_placeholder = tf.placeholder(tf.string)
     tf_model = elmo(tf_placeholder, signature="default",
                     as_dict=True)["default"]
-    texts_sent, texts_nsent = utils.get_sentences(texts)
+    texts_sent, texts_nsent = utils.get_sentences(texts, max_sent_len)
     embeddings = utils.run_tfhub(texts_sent, tf_model, tf_placeholder,
                                  tf_batch_size, gpu_id)
     return utils.avg_vectors(embeddings, texts_nsent)
@@ -211,7 +214,7 @@ def avg_elmo_emb(texts, module_url="https://tfhub.dev/google/elmo/2",
 
 def avg_use_emb(texts, module_url=("https://tfhub.dev/google/"
                                    "universal-sentence-encoder-large/3"),
-                tf_batch_size=64, gpu_id=None):
+                tf_batch_size=64, gpu_id=None, max_sent_len=40):
     """Return averaged sentence universal sentence encoding representation of
     the phrase or text.
 
@@ -224,6 +227,9 @@ def avg_use_emb(texts, module_url=("https://tfhub.dev/google/"
      pre-trained model
     :type gpu_id: string (to be used by os.environ['CUDA_VISIBLE_DEVICES'].
      optional, Default is None (Use System specified value)
+    :param max_sent_len: Maximum number of words per sentence. If a sentence is
+     found to be larger than this then it is split into multiple sentences.
+    :type max_sent_len: int, optional, default is 40.
     :return: A matrix representing the texts.
     :rtype: A numpy matrix.
     """
@@ -232,7 +238,7 @@ def avg_use_emb(texts, module_url=("https://tfhub.dev/google/"
     tf_placeholder = tf.placeholder(tf.string)
     tf_model = use(tf_placeholder)
 
-    texts_sent, texts_nsent = utils.get_sentences(texts)
+    texts_sent, texts_nsent = utils.get_sentences(texts, max_sent_len)
     embeddings = utils.run_tfhub(texts_sent, tf_model, tf_placeholder,
                                  tf_batch_size, gpu_id)
     return utils.avg_vectors(embeddings, texts_nsent)

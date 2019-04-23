@@ -284,7 +284,7 @@ are mentioned below.</p>
 <p>&#64;author: Nikhil Pattisapu, iREL, IIIT-H.</p>
 <dl class="function">
 <dt id="text_representation.text_emb.avg_elmo_emb">
-<code class="descclassname">text_representation.text_emb.</code><code class="descname">avg_elmo_emb</code><span class="sig-paren">(</span><em>texts</em>, <em>module_url='https://tfhub.dev/google/elmo/2'</em>, <em>tf_batch_size=64</em>, <em>gpu_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#text_representation.text_emb.avg_elmo_emb" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">text_representation.text_emb.</code><code class="descname">avg_elmo_emb</code><span class="sig-paren">(</span><em>texts</em>, <em>module_url='https://tfhub.dev/google/elmo/2'</em>, <em>tf_batch_size=64</em>, <em>gpu_id=None</em>, <em>max_sent_len=40</em><span class="sig-paren">)</span><a class="headerlink" href="#text_representation.text_emb.avg_elmo_emb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the averaged sentence Elmo representation of the phrase or text.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -297,6 +297,8 @@ batch of Elmo Tensorflow Hub model.</li>
 <li><strong>gpu_id</strong> (<em>string</em><em> (</em><em>to be used by os.environ</em><em>[</em><em>'CUDA_VISIBLE_DEVICES'</em><em>]</em><em>
 optional</em><em>, </em><em>Default is None</em><em> (</em><em>Use System specified value</em><em>)</em>) – The default GPU ID which has to be used to run Elmo
 pre-trained model</li>
+<li><strong>max_sent_len</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default is 40.</em>) – Maximum number of words per sentence. If a sentence is
+found to be larger than this then it is split into multiple sentences.</li>
 </ul>
 </td>
 </tr>
@@ -342,7 +344,7 @@ testing.</li>
 
 <dl class="function">
 <dt id="text_representation.text_emb.avg_use_emb">
-<code class="descclassname">text_representation.text_emb.</code><code class="descname">avg_use_emb</code><span class="sig-paren">(</span><em>texts</em>, <em>module_url='https://tfhub.dev/google/universal-sentence-encoder-large/3'</em>, <em>tf_batch_size=64</em>, <em>gpu_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#text_representation.text_emb.avg_use_emb" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">text_representation.text_emb.</code><code class="descname">avg_use_emb</code><span class="sig-paren">(</span><em>texts</em>, <em>module_url='https://tfhub.dev/google/universal-sentence-encoder-large/3'</em>, <em>tf_batch_size=64</em>, <em>gpu_id=None</em>, <em>max_sent_len=40</em><span class="sig-paren">)</span><a class="headerlink" href="#text_representation.text_emb.avg_use_emb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return averaged sentence universal sentence encoding representation of
 the phrase or text.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -356,6 +358,8 @@ batch of Universal Sentence Encoder Tensorflow Hub model.</li>
 <li><strong>gpu_id</strong> (<em>string</em><em> (</em><em>to be used by os.environ</em><em>[</em><em>'CUDA_VISIBLE_DEVICES'</em><em>]</em><em>
 optional</em><em>, </em><em>Default is None</em><em> (</em><em>Use System specified value</em><em>)</em>) – The default GPU ID which has to be used to run Elmo
 pre-trained model</li>
+<li><strong>max_sent_len</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default is 40.</em>) – Maximum number of words per sentence. If a sentence is
+found to be larger than this then it is split into multiple sentences.</li>
 </ul>
 </td>
 </tr>
@@ -548,13 +552,13 @@ embedding. The matrix spans the sentence embeddings of several documents.</li>
 
 <dl class="function">
 <dt id="text_representation.utilities.batchify">
-<code class="descclassname">text_representation.utilities.</code><code class="descname">batchify</code><span class="sig-paren">(</span><em>seq</em>, <em>batch_size</em><span class="sig-paren">)</span><a class="headerlink" href="#text_representation.utilities.batchify" title="Permalink to this definition">¶</a></dt>
-<dd><p>A utility function. Batchifies a given sequence (python list)</p>
+<code class="descclassname">text_representation.utilities.</code><code class="descname">batchify</code><span class="sig-paren">(</span><em>inp</em>, <em>batch_size</em><span class="sig-paren">)</span><a class="headerlink" href="#text_representation.utilities.batchify" title="Permalink to this definition">¶</a></dt>
+<dd><p>A utility function. Batchifies a given python sequence or numpy matrix</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="text_representation.utilities.get_sentences">
-<code class="descclassname">text_representation.utilities.</code><code class="descname">get_sentences</code><span class="sig-paren">(</span><em>texts</em>, <em>max_sent_len=30</em><span class="sig-paren">)</span><a class="headerlink" href="#text_representation.utilities.get_sentences" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">text_representation.utilities.</code><code class="descname">get_sentences</code><span class="sig-paren">(</span><em>texts</em>, <em>max_sent_len</em><span class="sig-paren">)</span><a class="headerlink" href="#text_representation.utilities.get_sentences" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tokenizes text and returns sentences as well as number of sentences per
 sample</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -563,7 +567,7 @@ sample</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>texts</strong> (<em>A list of strings</em>) – A list of phrases or texts</li>
-<li><strong>max_sent_len</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default is 30</em>) – Maximum number of words per sentence. Sentences longer
+<li><strong>max_sent_len</strong> (<em>int</em>) – Maximum number of words per sentence. Sentences longer
 than this would be split into multiple sentences.</li>
 </ul>
 </td>

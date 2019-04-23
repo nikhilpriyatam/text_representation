@@ -11,10 +11,14 @@ import numpy as np
 import tensorflow as tf
 
 
-def batchify(seq, batch_size):
-    """A utility function. Batchifies a given sequence (python list)"""
+def batchify(inp, batch_size):
+    """A utility function. Batchifies a given python sequence or numpy matrix"""
 
-    return [seq[i: i + batch_size] for i in range(0, len(seq), batch_size)]
+    if hasattr(inp, "__len__"):
+        size = len(inp)
+    else: # Assume its a numpy array
+        size = inp.shape[0]
+    return [inp[i: i + batch_size] for i in range(0, size, batch_size)]
 
 
 def avg_vectors(matrix, row_ids):
@@ -50,7 +54,7 @@ def get_spacy_sent_tokenizer():
     return nlp
 
 
-def get_sentences(texts, max_sent_len=30):
+def get_sentences(texts, max_sent_len):
     """Tokenizes text and returns sentences as well as number of sentences per
     sample
 
@@ -58,7 +62,7 @@ def get_sentences(texts, max_sent_len=30):
     :type texts: A list of strings
     :param max_sent_len: Maximum number of words per sentence. Sentences longer
      than this would be split into multiple sentences.
-    :type max_sent_len: int, optional, default is 30
+    :type max_sent_len: int
     :return: A tuple consisting of 2 lists. First one cosists of list of
      tokenized sentences. The second one consists of number of sentences in
      each document or text
